@@ -12,7 +12,6 @@ export class User {
   password: string;
 
   @Prop({ 
-    upsert: true, 
     unique: true,
     required: true })
   nickname: string;
