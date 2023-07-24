@@ -23,8 +23,9 @@ export class UserService {
         return _user.save();
     }
 
-    async updateUser(_id : string){
-        const user = await this.userModel.find({_id});
+    async updateUser(_id : string, nickname: string){
+        return await this.userModel.findByIdAndUpdate({_id}, )
+        
     }
 
     async deleteUser(_id: string){
