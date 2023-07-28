@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { IsNotEmpty } from 'class-validator';
+import { ObjectId } from 'mongodb';
 import { Document, SchemaOptions } from 'mongoose';
 
 export type BoardSchema = Board & Document;
@@ -7,32 +8,25 @@ export type BoardSchema = Board & Document;
 
 @Schema()
 export class Board extends Document {
-  @Prop({ required: true, unique: true, autoIncrement: true })
-  @IsNotEmpty()
-  Board_id: number;
+  @Prop({ required : true })
+  title : string;
 
   @Prop({ required: true })
-  @IsNotEmpty()
-  comments: number[];
-
-  @Prop({ required: true })
-  @IsNotEmpty()
   content: string;
 
   @Prop({ default: Date.now })
-  @IsNotEmpty()
   datetime: Date;
 
   @Prop({ required: true })
-  @IsNotEmpty()
-  writer: string;
+  writer: ObjectId;
+
+  @Prop({ required: true })
+  comments: ObjectId[];
 
   @Prop({ default: 0 })
-  @IsNotEmpty()
   recommends: number;
 
   @Prop({ required: true })
-  @IsNotEmpty()
   price: number;
 }
 

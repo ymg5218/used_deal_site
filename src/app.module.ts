@@ -8,23 +8,23 @@ import { BoardModule } from './board/board.module';
 import { DealModule } from './deal/deal.module';
 import { ChatModule } from './chat/chat.module';
 import { CommentModule } from './comment/comment.module';
+import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot("mongodb+srv://yeommingyu0106:aowlrrkawk99@cluster0.tmqnpye.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", {
-    dbName: 'used_deal'
+    ConfigModule.forRoot(),
+    MongooseModule.forRoot(process.env.DB_URL, {
+    dbName: 'used_deal',
     }),
     UserModule,
     BoardModule,
     DealModule,
     ChatModule,
     CommentModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule implements NestModule{
-  configure(consumer: MiddlewareConsumer) {
-    mongoose.set('debug',true)
-  }
-}
+export class AppModule{}
