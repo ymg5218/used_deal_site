@@ -1,10 +1,24 @@
-import { Body, Controller, Post, Get, Delete, Param, NotFoundException, Patch } from '@nestjs/common';
+import { 
+    Body, 
+    Controller, 
+    Post, 
+    Get, 
+    Delete, 
+    Param, 
+    NotFoundException,
+ } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './schema/user.schema';
+import { UserDTO } from './dto/user.dto';
+import { UserLoginDTO } from './dto/user.logindto';
+import { AuthService } from 'src/auth/auth.service';
 
 @Controller('/user')
 export class UserController {
-    constructor( private readonly userService: UserService){}
+    constructor( 
+        private readonly userService: UserService,
+        private readonly authService: AuthService
+        ){}
     
     @Get('findAll')
     async getAll(): Promise<User[]>{
@@ -16,14 +30,19 @@ export class UserController {
         return await this.userService.findOne(_id);
     }
     
+    @Post('login')
+    async loginUser(@Body() user: UserLoginDTO){
+        return await this.authService.jwtLogin(user);
+    }
+
     @Post('create')
-    async createUser(@Body() user: User): Promise<User>{
+    async createUser(@Body() user: UserDTO){
         return await this.userService.createUser(user);
     }
     
     @Post('update')
-    async updateUser(@Body() _id: string){
-        return await this.userService.updateUser(_id);
+    async updateUser(@Body() user : any){
+        return await this.userService.updateUser(user);
     }
 
     @Delete('delete/:_id')
@@ -33,6 +52,5 @@ export class UserController {
             throw new NotFoundException('User not found');
         }
         return deletedUser;
-        //return this.userService.deleteUser(_id);
     }
 }

@@ -1,5 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import * as mongoose from 'mongoose';
+import * as bcrypt from 'bcrypt';
+
 
 export type UserSchema = User & Document;
 
@@ -22,5 +25,6 @@ export class User {
   @Prop({ default: 0 })
   recommends: number;
 }
+
 
 export const UserSchema = SchemaFactory.createForClass(User);
